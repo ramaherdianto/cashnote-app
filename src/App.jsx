@@ -7,14 +7,7 @@ const App = () => {
     const [currentMoney, setCurrentMoney] = useState(550000);
     const [income, setIncome] = useState(15500000);
     const [outcome, setOutcome] = useState(2340000);
-    const [summary, setSummary] = useState([
-        {
-            namaTransaksi: '',
-            nominal: 0,
-            tanggal: '',
-            kategori: '',
-        },
-    ]);
+    const [summary, setSummary] = useState([]);
 
     const tambahTransaksi = (obj) => {
         setSummary([...summary, obj]);
@@ -80,9 +73,9 @@ const App = () => {
                     </div>
                 </div>
 
-                <div className='all-transaction-wrapper flex flex-col gap-3'>
-                    {summary.map((transaction, index) => {
-                        return (
+                {summary?.map((transaction, index) => {
+                    return (
+                        <div className='all-transaction-wrapper flex flex-col gap-3'>
                             <div
                                 key={index}
                                 className='transaction-item flex items-center justify-between'
@@ -122,9 +115,9 @@ const App = () => {
                                     </h3>
                                 </div>
                             </div>
-                        );
-                    })}
-                </div>
+                        </div>
+                    );
+                })}
             </div>
         </div>
     );
