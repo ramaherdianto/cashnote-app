@@ -37,6 +37,9 @@ const Modal = (props) => {
             kategori: formInput.kategori,
         };
         props.tambahTransaksi(addedTransactions);
+        formInput['namaTransaksi'] = '';
+        formInput['nominal'] = 0;
+        formInput['tanggal'] = '';
         handleClose();
     };
 

@@ -4,14 +4,14 @@ import Modal from './components/Modal';
 
 const App = () => {
     const [open, setOpen] = useState(false);
-    const [currentMoney, setCurrentMoney] = useState(550000);
-    const [income, setIncome] = useState(15500000);
-    const [outcome, setOutcome] = useState(2340000);
+    const [currentMoney, setCurrentMoney] = useState(0);
+    const [currMoneyPercent, setCurrMoneyPercent] = useState(0);
+    const [income, setIncome] = useState(0);
+    const [outcome, setOutcome] = useState(0);
     const [summary, setSummary] = useState([]);
 
     const tambahTransaksi = (obj) => {
         setSummary([...summary, obj]);
-        console.log(summary);
     };
 
     return (
@@ -25,7 +25,7 @@ const App = () => {
                         Rp. {currentMoney},-
                     </h1>
                     <span className='text-[#A1A1A1] text-[13px]'>
-                        Sisa uang kamu tersisa 75% lagi
+                        Sisa uang kamu tersisa {currMoneyPercent}% lagi
                     </span>
                 </div>
             </div>
@@ -73,9 +73,9 @@ const App = () => {
                     </div>
                 </div>
 
-                {summary?.map((transaction, index) => {
-                    return (
-                        <div className='all-transaction-wrapper flex flex-col gap-3'>
+                <div className='all-transaction-wrapper flex flex-col gap-3'>
+                    {summary?.map((transaction, index) => {
+                        return (
                             <div
                                 key={index}
                                 className='transaction-item flex items-center justify-between'
@@ -115,9 +115,9 @@ const App = () => {
                                     </h3>
                                 </div>
                             </div>
-                        </div>
-                    );
-                })}
+                        );
+                    })}
+                </div>
             </div>
         </div>
     );
