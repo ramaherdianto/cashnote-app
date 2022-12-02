@@ -3,37 +3,22 @@ import './App.scss';
 import Modal from './components/Modal';
 
 const App = () => {
+    const [open, setOpen] = useState(false);
     const [currentMoney, setCurrentMoney] = useState(550000);
     const [income, setIncome] = useState(15500000);
     const [outcome, setOutcome] = useState(2340000);
-    const [listTransactions, setListTransactions] = useState([]);
-    const [formInput, setFormInput] = useState({
-        namaTransaksi: '',
-        nominal: 0,
-        tanggal: '',
-        kategori: '',
-    });
+    const [summary, setSummary] = useState([
+        {
+            namaTransaksi: '',
+            nominal: 0,
+            tanggal: '',
+            kategori: '',
+        },
+    ]);
 
-    const handleChange = (e) => {
-        const { name, value } = e.target;
-        setFormInput({
-            ...formInput,
-            [name]: value,
-        });
-    };
-
-    const handleSubmit = (e) => {
-        e.preventDefault();
-        const addedTransactions = [
-            {
-                namaTransaksi: formInput.namaTransaksi,
-                nominal: parseInt(formInput.nominal),
-                tanggal: formInput.tanggal,
-                kategori: formInput.kategori,
-            },
-        ];
-
-        setListTransactions([formInput, addedTransactions]);
+    const tambahTransaksi = (obj) => {
+        setSummary([...summary, obj]);
+        console.log(summary);
     };
 
     return (
@@ -79,59 +64,24 @@ const App = () => {
                         <h1 className='text-[#3C3DBF] text-xl'>Ringkasan Transaksi</h1>
                     </div>
                     <div className='btn-transaction flex gap-3'>
-                        <Modal.Button
-                            btnId='income'
+                        <Modal
+                            kategori='In'
+                            tambahTransaksi={tambahTransaksi}
                             btnText='Pemasukan'
                             btnIcon='ri-add-circle-fill'
                         />
-
-                        <Modal modalId='income'>
-                            <h3 className='font-bold text-xl mb-3 text-[#3C3DBF]'>Pemasukan</h3>
-                            <form onSubmit={handleSubmit}>
-                                <Modal.Input
-                                    type='text'
-                                    name='namaTransaksi'
-                                    value={formInput.namaTransaksi}
-                                    onChange={handleChange}
-                                    placeholder='Nama transaksi'
-                                />
-                                <Modal.Input
-                                    type='number'
-                                    name='nominal'
-                                    value={formInput.nominal}
-                                    onChange={handleChange}
-                                    placeholder='Masukkan nominal'
-                                />
-                                <Modal.Input
-                                    type='date'
-                                    name='tanggal'
-                                    value={formInput.tanggal}
-                                    onChange={handleChange}
-                                />
-                                <Modal.Input
-                                    type='text'
-                                    name='kategori'
-                                    value={formInput.kategori}
-                                    onChange={handleChange}
-                                />
-
-                                <button type='submit'>submit</button>
-                            </form>
-                        </Modal>
-
-                        <Modal.Button
+                        <Modal
+                            kategori='Out'
+                            tambahTransaksi={tambahTransaksi}
                             btnColor='bg-[#FF3666]'
-                            btnId='outcome'
                             btnText='Pengeluaran'
-                            btnIcon='ri-indeterminate-circle-fill'
+                            btnIcon='ri-add-circle-fill'
                         />
-
-                        {/* <Modal modalId='outcome'>Pengeluaran</Modal> */}
                     </div>
                 </div>
 
                 <div className='all-transaction-wrapper flex flex-col gap-3'>
-                    {listTransactions?.map((transaction, index) => {
+                    {summary.map((transaction, index) => {
                         return (
                             <div
                                 key={index}
@@ -176,42 +126,6 @@ const App = () => {
                     })}
                 </div>
             </div>
-
-            {/* <input type='checkbox' id='income' className='modal-toggle' />
-            <div className='modal'>
-                <div className='modal-box bg-slate-100'>
-                    <h3 className='font-bold text-lg text-[#3C3DBF]'>Pemasukan</h3>
-                    <p className='py-4'>
-                        You've been selected for a chance to get one year of subscription to use
-                        Wikipedia for free!
-                    </p>
-                    <div className='modal-action'>
-                        <label htmlFor='income' className='btn'>
-                            Yay!
-                        </label>
-                    </div>
-                </div>
-            </div> */}
-
-            {/* <label htmlFor='income' className='btn'>
-                open modal
-            </label>
-
-            <input type='checkbox' id='income' className='modal-toggle' />
-            <div className='modal'>
-                <div className='modal-box'>
-                    <h3 className='font-bold text-lg'>Congratulations random Internet user!</h3>
-                    <p className='py-4'>
-                        You've been selected for a chance to get one year of subscription to use
-                        Wikipedia for free!
-                    </p>
-                    <div className='modal-action'>
-                        <label htmlFor='income' className='btn'>
-                            Yay!
-                        </label>
-                    </div>
-                </div>
-            </div> */}
         </div>
     );
 };
