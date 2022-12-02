@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import './App.scss';
 import Modal from './components/Modal';
 
@@ -7,12 +7,51 @@ const App = () => {
     const [currentMoney, setCurrentMoney] = useState(0);
     const [currMoneyPercent, setCurrMoneyPercent] = useState(0);
     const [income, setIncome] = useState(0);
+    const [incomeTransactions, setIncomeTransactions] = useState(0);
     const [outcome, setOutcome] = useState(0);
-    const [summary, setSummary] = useState([]);
+    const [outcomeTransactions, setOutcomeTransactions] = useState(0);
+    const [summary, setSummary] = useState([
+        // {
+        //     namaTransaksi: 'aselole',
+        //     nominal: 21000,
+        //     tanggal: '12-12-2002',
+        //     kategori: 'In',
+        // },
+        // {
+        //     namaTransaksi: 'aselole 12',
+        //     nominal: 39000,
+        //     tanggal: '12-12-2002',
+        //     kategori: 'In',
+        // },
+    ]);
 
     const tambahTransaksi = (obj) => {
         setSummary([...summary, obj]);
     };
+
+    useEffect(() => {
+        let dataIncome = summary.filter((item) => item.kategori === 'In');
+        let nominalIncome = dataIncome.map((item) => item.nominal);
+        if (nominalIncome.length >= 1) {
+            let sumIncome = nominalIncome?.reduce((sum, nominal) => sum + nominal);
+            setIncome(sumIncome);
+            setIncomeTransactions(nominalIncome.length);
+        }
+
+        let dataOutcome = summary.filter((item) => item.kategori === 'Out');
+        let nominalOutcome = dataOutcome.map((item) => item.nominal);
+        if (nominalOutcome.length >= 1) {
+            let sumOutcome = nominalOutcome?.reduce((sum, nominal) => sum + nominal);
+            setOutcome(sumOutcome);
+            setOutcomeTransactions(nominalOutcome.length);
+        }
+
+        setCurrentMoney(income - outcome);
+
+        if (nominalIncome.length >= 1 && nominalOutcome.length >= 1) {
+            setCurrMoneyPercent(((income - outcome) / income) * 100);
+        }
+    });
 
     return (
         <div className='App'>
@@ -37,7 +76,9 @@ const App = () => {
                     </div>
                     <span className='text-xs text-[#A2A2A2]'>Pemasukan</span>
                     <h1 className='text-xl text-[#454545] my-1 font-semibold'>Rp. {income},-</h1>
-                    <span className='text-[#3C3DBF] text-xs font-semibold'>50</span>
+                    <span className='text-[#3C3DBF] text-xs font-semibold'>
+                        {incomeTransactions}
+                    </span>
                     <span className='text-[#A2A2A2] text-xs ml-1'>Transaksi</span>
                 </div>
                 <div className='curr-outcome w-[270px] h-[150px] bg-white p-4 rounded-[14px] gap-2'>
@@ -46,7 +87,9 @@ const App = () => {
                     </div>
                     <span className='text-xs text-[#A2A2A2]'>Pengeluaran</span>
                     <h1 className='text-xl text-[#454545] my-1 font-semibold'>Rp. {outcome},-</h1>
-                    <span className='text-[#FF3666] text-xs font-semibold'>50</span>
+                    <span className='text-[#FF3666] text-xs font-semibold'>
+                        {outcomeTransactions}
+                    </span>
                     <span className='text-[#A2A2A2] text-xs ml-1'>Transaksi</span>
                 </div>
             </div>
