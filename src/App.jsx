@@ -54,7 +54,7 @@ const App = () => {
                         Rp. {currentMoney},-
                     </h1>
                     <span className='text-[#A1A1A1] text-[13px]'>
-                        Sisa uang kamu tersisa{' '}
+                        Uang kamu tersisa{' '}
                         {outcome >= 1 && income < 0
                             ? -Math.abs(currMoneyPercent)
                             : currMoneyPercent.toFixed(0)}
@@ -105,7 +105,7 @@ const App = () => {
                             tambahTransaksi={tambahTransaksi}
                             btnColor='bg-[#FF3666]'
                             btnText='Pengeluaran'
-                            btnIcon='ri-add-circle-fill'
+                            btnIcon='ri-indeterminate-circle-fill'
                         />
                     </div>
                 </div>
