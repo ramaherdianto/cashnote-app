@@ -76,7 +76,7 @@ const Modal = (props) => {
                                         name='namaTransaksi'
                                         value={formInput.namaTransaksi}
                                         onChange={handleChange}
-                                        placeholder='Nama transaksi'
+                                        placeholder='nama transaksi'
                                         required
                                         className='input border-2 border-slate-300 w-full max-w-xs my-2 bg-white text-slate-700'
                                     />
@@ -85,6 +85,7 @@ const Modal = (props) => {
                                         name='nominal'
                                         value={formInput.nominal}
                                         onChange={handleChange}
+                                        placeholder='nominal'
                                         required
                                         className='input border-2 border-slate-300 w-full max-w-xs my-2 bg-white text-slate-700'
                                     />
