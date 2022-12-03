@@ -4,6 +4,12 @@
     font-family: 'Poppins', sans-serif;
 }
 
+@mixin mobile {
+    @media screen and (max-width: 568px) {
+        @content;
+    }
+}
+
 #modal {
     transition: all 0.4s ease-in-out;
 }
@@ -31,6 +37,15 @@
 
     .transaction-list {
         .header-transaction {
+            @include mobile() {
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+                align-items: center;
+                margin-top: 50px;
+                gap: 40px;
+            }
+
             .btn-transaction {
                 .btn__modal {
                     transition: all 0.4s ease;
