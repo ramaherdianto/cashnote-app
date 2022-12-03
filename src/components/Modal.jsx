@@ -6,7 +6,7 @@ const Modal = (props) => {
     const [open, setOpen] = useState(false);
     const [formInput, setFormInput] = useState({
         namaTransaksi: '',
-        nominal: 0,
+        nominal: '',
         tanggal: '',
         kategori: '',
     });
@@ -38,7 +38,7 @@ const Modal = (props) => {
         };
         props.tambahTransaksi(addedTransactions);
         formInput['namaTransaksi'] = '';
-        formInput['nominal'] = 0;
+        formInput['nominal'] = '';
         formInput['tanggal'] = '';
         handleClose();
     };
@@ -77,6 +77,7 @@ const Modal = (props) => {
                                         value={formInput.namaTransaksi}
                                         onChange={handleChange}
                                         placeholder='Nama transaksi'
+                                        required
                                         className='input border-2 border-slate-300 w-full max-w-xs my-2 bg-white text-slate-700'
                                     />
                                     <input
@@ -84,6 +85,7 @@ const Modal = (props) => {
                                         name='nominal'
                                         value={formInput.nominal}
                                         onChange={handleChange}
+                                        required
                                         className='input border-2 border-slate-300 w-full max-w-xs my-2 bg-white text-slate-700'
                                     />
                                     <input
@@ -91,6 +93,7 @@ const Modal = (props) => {
                                         name='tanggal'
                                         value={formInput.tanggal}
                                         onChange={handleChange}
+                                        required
                                         className='input border-2 border-slate-300 w-full max-w-xs my-2 bg-white text-slate-700'
                                     />
                                     <input

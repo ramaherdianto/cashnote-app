@@ -3,27 +3,13 @@ import './App.scss';
 import Modal from './components/Modal';
 
 const App = () => {
-    const [open, setOpen] = useState(false);
     const [currentMoney, setCurrentMoney] = useState(0);
     const [currMoneyPercent, setCurrMoneyPercent] = useState(0);
     const [income, setIncome] = useState(0);
     const [incomeTransactions, setIncomeTransactions] = useState(0);
     const [outcome, setOutcome] = useState(0);
     const [outcomeTransactions, setOutcomeTransactions] = useState(0);
-    const [summary, setSummary] = useState([
-        // {
-        //     namaTransaksi: 'aselole',
-        //     nominal: 21000,
-        //     tanggal: '12-12-2002',
-        //     kategori: 'In',
-        // },
-        // {
-        //     namaTransaksi: 'aselole 12',
-        //     nominal: 39000,
-        //     tanggal: '12-12-2002',
-        //     kategori: 'In',
-        // },
-    ]);
+    const [summary, setSummary] = useState([]);
 
     const tambahTransaksi = (obj) => {
         setSummary([...summary, obj]);
@@ -50,13 +36,17 @@ const App = () => {
 
         if (nominalIncome.length >= 1 && nominalOutcome.length >= 1) {
             setCurrMoneyPercent(((income - outcome) / income) * 100);
+        } else if (nominalIncome.length >= 1 && nominalOutcome.length < 1) {
+            setCurrMoneyPercent((income / income) * 100);
+        } else if (nominalOutcome.length >= 1 && nominalIncome.length < 1) {
+            setCurrMoneyPercent((outcome / outcome) * 100);
         }
     });
 
     return (
         <div className='App'>
             <div className='title-apps flex justify-center flex-col items-center'>
-                <h1 className='text-[40px] border-b-2 py-6 px-8 uppercase font-bold bg-clip-text text-transparent bg-gradient-to-r from-pink-500 to-violet-500'>
+                <h1 className='text-[40px] text-center border-b-2 py-6 px-8 uppercase font-bold bg-clip-text text-transparent bg-gradient-to-r from-pink-500 to-violet-500'>
                     CashNote Apps
                 </h1>
                 <div className='curr-money mt-6 flex flex-col items-center gap-2'>
@@ -64,7 +54,11 @@ const App = () => {
                         Rp. {currentMoney},-
                     </h1>
                     <span className='text-[#A1A1A1] text-[13px]'>
-                        Sisa uang kamu tersisa {currMoneyPercent}% lagi
+                        Sisa uang kamu tersisa{' '}
+                        {outcome >= 1 && income < 0
+                            ? -Math.abs(currMoneyPercent)
+                            : currMoneyPercent.toFixed(0)}
+                        % lagi
                     </span>
                 </div>
             </div>
@@ -117,49 +111,55 @@ const App = () => {
                 </div>
 
                 <div className='all-transaction-wrapper flex flex-col gap-3'>
-                    {summary?.map((transaction, index) => {
-                        return (
-                            <div
-                                key={index}
-                                className='transaction-item flex items-center justify-between'
-                            >
-                                <div className='transaction-detail flex gap-2 items-center'>
-                                    <div
-                                        className={`${
-                                            transaction.kategori === 'In'
-                                                ? 'bg-[#E4E5FF]'
-                                                : 'bg-[#FFECF0]'
-                                        } transaction-icon bg-[#E4E5FF] py-1 px-3 flex justify-center items-center rounded-md`}
-                                    >
-                                        <i
-                                            className={
+                    {summary.length > 0 ? (
+                        summary?.map((transaction, index) => {
+                            return (
+                                <div
+                                    key={index}
+                                    className='transaction-item flex items-center justify-between'
+                                >
+                                    <div className='transaction-detail flex gap-2 items-center'>
+                                        <div
+                                            className={`${
                                                 transaction.kategori === 'In'
-                                                    ? 'ri-wallet-line text-[22px] text-[#3C3DBF]'
-                                                    : 'ri-shopping-bag-line text-[22px] text-[#FF3666]'
-                                            }
-                                        ></i>
+                                                    ? 'bg-[#E4E5FF]'
+                                                    : 'bg-[#FFECF0]'
+                                            } transaction-icon bg-[#E4E5FF] py-1 px-3 flex justify-center items-center rounded-md`}
+                                        >
+                                            <i
+                                                className={
+                                                    transaction.kategori === 'In'
+                                                        ? 'ri-wallet-line text-[22px] text-[#3C3DBF]'
+                                                        : 'ri-shopping-bag-line text-[22px] text-[#FF3666]'
+                                                }
+                                            ></i>
+                                        </div>
+                                        <div className='transaction-desc'>
+                                            <h3 className='text-sm'>{transaction.namaTransaksi}</h3>
+                                            <span className='text-[#A2A2A2] text-xs'>
+                                                {transaction.tanggal}
+                                            </span>
+                                        </div>
                                     </div>
-                                    <div className='transaction-desc'>
-                                        <h3 className='text-sm'>{transaction.namaTransaksi}</h3>
-                                        <span className='text-[#A2A2A2] text-xs'>
-                                            {transaction.tanggal}
-                                        </span>
+                                    <div className='transaction-money'>
+                                        <h3
+                                            className={`text-sm font-semibold ${
+                                                transaction.kategori === 'In'
+                                                    ? 'text-[#3C3DBF]'
+                                                    : 'text-[#FF3666]'
+                                            }`}
+                                        >
+                                            Rp. {transaction.nominal},-
+                                        </h3>
                                     </div>
                                 </div>
-                                <div className='transaction-money'>
-                                    <h3
-                                        className={`text-sm font-semibold ${
-                                            transaction.kategori === 'In'
-                                                ? 'text-[#3C3DBF]'
-                                                : 'text-[#FF3666]'
-                                        }`}
-                                    >
-                                        Rp. {transaction.nominal},-
-                                    </h3>
-                                </div>
-                            </div>
-                        );
-                    })}
+                            );
+                        })
+                    ) : (
+                        <div className='flex justify-center text-[#A1A1A1] text-[13px] items-center mt-10'>
+                            Tidak ada transaksi
+                        </div>
+                    )}
                 </div>
             </div>
         </div>
