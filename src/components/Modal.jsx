@@ -1,8 +1,6 @@
 import { useState } from 'react';
 
-const Modal = (props) => {
-    const { btnColor = 'bg-[#3C3DBF]', btnText, btnIcon } = props;
-
+const Modal = ({ btnColor = 'bg-[#3C3DBF]', btnText, btnIcon, tambahTransaksi, kategori }) => {
     const [open, setOpen] = useState(false);
     const [formInput, setFormInput] = useState({
         namaTransaksi: '',
@@ -13,7 +11,7 @@ const Modal = (props) => {
 
     const handleOpen = () => {
         setOpen(true);
-        formInput['kategori'] = props.kategori;
+        formInput['kategori'] = kategori;
     };
 
     const handleClose = () => {
@@ -36,7 +34,7 @@ const Modal = (props) => {
             tanggal: formInput.tanggal,
             kategori: formInput.kategori,
         };
-        props.tambahTransaksi(addedTransactions);
+        tambahTransaksi(addedTransactions);
         formInput['namaTransaksi'] = '';
         formInput['nominal'] = '';
         formInput['tanggal'] = '';
