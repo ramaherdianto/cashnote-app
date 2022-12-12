@@ -1,6 +1,6 @@
 import React from 'react';
 
-const Header = ({ currentMoney, currMoneyPercent }) => {
+const Header = ({ currentMoney, currMoneyPercent, income, expense }) => {
     return (
         <>
             <div className='title-apps flex justify-center flex-col items-center'>
@@ -12,7 +12,7 @@ const Header = ({ currentMoney, currMoneyPercent }) => {
                         Rp. {currentMoney},-
                     </h1>
                     <span className='text-[#A1A1A1] text-[13px]'>
-                        Uang kamu tersisa {currMoneyPercent.toFixed(0)}% lagi
+                        Uang kamu tersisa {income < expense ? 0 : currMoneyPercent.toFixed(0)}% lagi
                     </span>
                 </div>
             </div>
