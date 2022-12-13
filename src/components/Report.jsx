@@ -4,13 +4,18 @@ import Header from './Header';
 import MainContent from './TransactionContent';
 import TransactionsCard from './TransactionsCard';
 
-const Report = ({ summary, tambahTransaksi }) => {
+const Report = () => {
     const [currentMoney, setCurrentMoney] = useState(0);
     const [currMoneyPercent, setCurrMoneyPercent] = useState(0);
     const [income, setIncome] = useState(0);
     const [incomeTransactions, setIncomeTransactions] = useState(0);
     const [expense, setExpense] = useState(0);
     const [expenseTransactions, setExpenseTransactions] = useState(0);
+    const [summary, setSummary] = useState([]);
+
+    const tambahTransaksi = (obj) => {
+        setSummary([...summary, obj]);
+    };
 
     useEffect(() => {
         let dataIncome = summary.filter((item) => item.kategori === 'In');
